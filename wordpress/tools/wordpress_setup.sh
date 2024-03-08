@@ -32,8 +32,6 @@ wp core download --allow-root
 
 wp --info
 
-echo "1"
-
 # Create WordPress database config
 wp config create --allow-root \
 	--dbname=$WORDPRESS_DATABASE \
@@ -43,7 +41,6 @@ wp config create --allow-root \
 	--path=/var/www/html/wordpress/ \
 	--force
 
-echo "2"
 
 # Install WordPress and feed db config
 wp core install \
@@ -58,8 +55,6 @@ wp core install \
 
 # Create WordPress user
 
-echo "3"
-
 wp user create \
 	$WORDPRESS_USER \
 	$WORDPRESS_EMAIL \
@@ -67,24 +62,19 @@ wp user create \
 	--user_pass=$WORDPRESS_PW \
 	--allow-root
 
-echo "3"
-
 # Install theme for WordPress
 wp theme install inspiro \
 	--activate \
 	--allow-root
 
-echo "4"
 # Update plugins
 wp plugin update --all --allow-root
 
-echo "5"
 
 # Update WP address and site address to match our domain
 wp option update siteurl "https://$DOMAIN" --allow-root
 wp option update home "https://$DOMAIN" --allow-root
 
-echo "6"
 
 # Transfer ownership to the user
 chown -R nginx:nginx /var/www/html/wordpress

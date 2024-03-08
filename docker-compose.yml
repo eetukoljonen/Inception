@@ -2,7 +2,7 @@ version: '3.8'
 
 volumes:
   mariadb_data:
-    name: mariadb_data
+    name: mariadb-data
     driver: local
     driver_opts:
       type: none
@@ -16,33 +16,50 @@ volumes:
       device: /Users/ekoljone/Desktop/Inception/wordpress_data
       o: bind
 
+
+networks:
+  inception-network:
+    name: inception-network
+
 services:
   mariadb:
     build:
       context: ./mariadb
       dockerfile: Dockerfile
     image: mariadb-img
+    container_name: mariadb-cont
     env_file: .env
     volumes:
       - mariadb_data:/var/lib/mysql
+    restart: always
+    networks:
+      - inception-network
   wordpress:
     build:
       context: ./wordpress
       dockerfile: Dockerfile
     image: wordpress-img
+    container_name: wordpress-cont
     env_file: .env
+    restart: always
     volumes:
       - wordpress-data:/var/www/html
     depends_on:
       - mariadb
+    networks:
+      - inception-network
   nginx:
     build:
       context: ./nginx
       dockerfile: Dockerfile
     image: nginx-img
+    container_name: nginx-cont
+    restart: always
     ports:
       - "443:443"
     volumes:
       - wordpress-data:/var/www/html
     depends_on:
       - wordpress
+    networks:
+      - inception-network

@@ -8,6 +8,11 @@ chown -R mysql:mysql /var/lib/mysql
 # init database
 mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm > /dev/null
 
+
+mv /var/lib/mysql/ib_logfile0 /var/lib/mysql/ib_logfile0.bak
+mv /var/lib/mysql/ib_logfile1 /var/lib/mysql/ib_logfile1.bak
+
+
 # Enforce root pw, create db, add user, give rights
 mysqld --user=mysql --bootstrap << EOF
 USE mysql;
@@ -20,5 +25,6 @@ GRANT ALL PRIVILEGES ON *.* TO '$WORDPRESS_USER'@'%' IDENTIFIED BY '$WORDPRESS_P
 GRANT SELECT ON mysql.* TO '$WORDPRESS_USER'@'%';
 FLUSH PRIVILEGES;
 EOF
+
 
 exec mysqld --defaults-file=/etc/my.cnf.d/my-mariadb-conf.cnf
