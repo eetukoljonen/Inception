@@ -63,9 +63,16 @@ wp user create \
 	--allow-root
 
 # Install theme for WordPress
-wp theme install inspiro \
+wp theme install oceanwp \
 	--activate \
 	--allow-root
+
+# Creating a navigation menu
+wp menu create "My menu" --allow-root
+# Adding login link to my menu
+wp menu item add-custom my-menu Login https://ekoljone.42.fr/wp-admin --porcelain --allow-root
+# Assign the 'my-menu' menu to the 'topbar_menu' location
+wp menu location assign my-menu topbar_menu --allow-root
 
 # Update plugins
 wp plugin update --all --allow-root
