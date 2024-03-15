@@ -5,13 +5,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /Users/eetukoljonen/Desktop/Inception/mariadb-data
+      device: /home/login/data/mariadb-data
       o: bind
   wordpress-data:
     driver: local
     driver_opts:
       type: none
-      device: /Users/eetukoljonen/Desktop/Inception/wordpress-data
+      device: /home/login/data/wordpress-data
       o: bind
 
 networks:
