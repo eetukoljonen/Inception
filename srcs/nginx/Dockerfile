@@ -7,8 +7,6 @@ RUN apt-get update -y && apt-get install -y nginx vim curl openssl && \
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
-# COPY tools/index.html /data/www/
-
 EXPOSE 443
 
 CMD [ "nginx", "-g", "daemon off;" ]
