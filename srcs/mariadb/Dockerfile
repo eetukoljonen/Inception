@@ -10,4 +10,4 @@ RUN chmod 644 /etc/my.cnf.d/my-mariadb-conf.cnf
 COPY ./tools/script.sh /tmp/script.sh
 RUN chmod 777 /tmp/script.sh
 
-ENTRYPOINT ["sh", "/tmp/script.sh"]
+CMD ["sh", "/tmp/script.sh"]

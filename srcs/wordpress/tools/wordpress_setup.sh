@@ -4,19 +4,11 @@
 attempts=0
 while ! mariadb -h$MYSQL_HOST -u$WORDPRESS_USER -p$WORDPRESS_PW $WORDPRESS_DATABASE; do
 	attempts=$((attempts + 1))
-    echo "MariaDB unavailable. Attempt $attempts: Trying again in 5 sec."
 	if [ $attempts -ge 12 ]; then
-		echo "Max attempts reached. MariaDB connection could not be established."
         exit 1
 	fi
     sleep 5
 done
-echo "MariaDB connection established!"
-
-echo "Listing databases:"
-mariadb -h$MYSQL_HOST -u$WORDPRESS_USER -p$WORDPRESS_PW $WORDPRESS_DATABASE << EOF
-SHOW DATABASES;
-EOF
 
 # Set working dir
 cd /var/www/html/wordpress/
@@ -29,8 +21,6 @@ chmod +x /usr/local/bin/wp
 
 # DL WP using the CLI
 wp core download --allow-root
-
-wp --info
 
 # Create WordPress database config
 wp config create --allow-root \
@@ -68,11 +58,13 @@ wp theme install oceanwp \
 	--allow-root
 
 # Creating a navigation menu
-wp menu create "My menu" --allow-root
-# Adding login link to my menu
-wp menu item add-custom my-menu Login https://ekoljone.42.fr/wp-admin --porcelain --allow-root
-# Assign the 'my-menu' menu to the 'topbar_menu' location
-wp menu location assign my-menu topbar_menu --allow-root
+if ! wp menu list --allow-root | grep "My menu"; then
+    wp menu create "My menu" --allow-root
+	# Adding login link to my menu
+	wp menu item add-custom my-menu Login https://ekoljone.42.fr/wp-admin --porcelain --allow-root
+	# Assign the 'my-menu' menu to the 'topbar_menu' location
+	wp menu location assign my-menu topbar_menu --allow-root
+fi
 
 # Update plugins
 wp plugin update --all --allow-root
