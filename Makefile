@@ -12,7 +12,7 @@ clean:
 	docker compose -f srcs/docker-compose.yml down --rmi all -v
 
 fclean: clean
-	sed -i '/ekoljone\.42\.fr/d' /etc/hosts
+	sudo sed -i '/ekoljone\.42\.fr/d' /etc/hosts
 	rm -rf /home/ekoljone/data/wordpress-data
 	rm -rf /home/ekoljone/data/mariadb-data
 	docker system prune -f
