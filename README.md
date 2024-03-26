@@ -8,7 +8,7 @@ The project utilizes Docker Compose and aims to provide a seamless deployment ex
 ## Services
 
 - **NGINX**: Docker container containing NGINX configured to support only TLSv1.2 or TLSv1.3.
-- **WordPress with php-fpm**: Docker container containing WordPress and php-fpm for server-side scripting.
+- **WordPress**: Docker container containing WordPress and php-fpm for server-side scripting.
 - **MariaDB**: Docker container containing MariaDB for database storage.
 
 ## Setup Instructions
